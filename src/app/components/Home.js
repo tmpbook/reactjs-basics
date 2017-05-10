@@ -7,8 +7,31 @@ export class Home extends React.Component {
         this.state = {
             age: props.initialAge,
             status: 0,
-            homeLink: "Changed Link"
+            homeLink: props.initialLinkName
         }
+        console.log("Constructor")
+    }
+    componentWillMount() {
+        console.log("Component will mount")
+    }
+    componentDidMount() {
+        console.log("Component did mount")
+    }
+    componentWillReceiveProps(nextProps) {
+        console.log("Component will receice props", nextProps)
+    }
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log("Should Component update", nextProps, nextState)
+        return true
+    }
+    componentWillUpdate(prevProps, prevState) {
+        console.log("Component will update", prevProps, prevState)
+    }
+    componentDidUpdate(prevProps, prevState) {
+        console.log("Component did update", prevProps, prevState)
+    }
+    componentWillUnmount() {
+        console.log("Component will unmount")
     }
     onMakeOlder() {
         this.setState({
@@ -17,6 +40,11 @@ export class Home extends React.Component {
     }
     onChangeLink() {
         this.props.changeLink(this.state.homeLink)
+    }
+    onHandleChange(event) {
+        this.setState({
+            homeLink: event.target.value
+        })
     }
     render() {
         // console.log(this.props)
@@ -30,6 +58,11 @@ export class Home extends React.Component {
                 <hr/>
                 <button onClick={this.props.greet} className="btn btn-primary">Creet</button>
                 <hr/>
+                <input 
+                type="text" 
+                value={this.state.homeLink}
+                onChange={(event) => this.onHandleChange(event)}
+                />
                 <button onClick={this.onChangeLink.bind(this)} className="btn btn-primary">change link name</button>
             </div>
         )
@@ -39,5 +72,6 @@ export class Home extends React.Component {
 Home.propTypes = {
     name: PropTypes.string,
     initialAge: PropTypes.number,
-    greet: PropTypes.func
+    greet: PropTypes.func,
+    initialLinkName: PropTypes.string
 }
